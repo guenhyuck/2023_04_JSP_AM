@@ -20,16 +20,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ArticleListServlet</servlet-name>
-
-
-
-
-
-
-
-
-
-
 		<url-pattern>/ArticleListServlet</url-pattern>
 	</servlet-mapping>
 	<servlet>
@@ -40,15 +30,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ArticleDetailServlet</servlet-name>
-
-
-
-
-
-
-
-
-
 
 		<url-pattern>/ArticleDetailServlet</url-pattern>
 	</servlet-mapping>

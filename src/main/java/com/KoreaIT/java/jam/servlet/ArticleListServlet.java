@@ -2,7 +2,6 @@ package com.KoreaIT.java.jam.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,10 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.KoreaIT.java.jam.util.DBUtil;
+import com.KoreaIT.java.jam.util.SecSql;
 
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
@@ -36,12 +38,13 @@ public class ArticleListServlet extends HttpServlet {
 
 			response.getWriter().append("Success!!!");
 
-			String sql = "SELECT * FROM article ORDER BY id DESC;";
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("ORDER BY id DESC;");
 
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 
 			response.getWriter().append(articleRows.toString());
-
 			request.setAttribute("articleRows", articleRows);
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 		} catch (SQLException e) {

@@ -5,17 +5,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
-
 import javax.servlet.ServletException;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.KoreaIT.java.jam.util.DBUtil;
+import com.KoreaIT.java.jam.util.SecSql;
 
 @WebServlet("/article/detail")
 public class ArticleDetailServlet extends HttpServlet {
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
@@ -33,17 +34,17 @@ public class ArticleDetailServlet extends HttpServlet {
 		}
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-
 			response.getWriter().append("Success!!!");
 
 			int id = Integer.parseInt(request.getParameter("id"));
 
-			String sql = String.format("SELECT * FROM article WHERE id = %d;", id);
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("WHERE id = ? ;", id);
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 
 			response.getWriter().append(articleRow.toString());
-
 			request.setAttribute("articleRow", articleRow);
 			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 		} catch (SQLException e) {
