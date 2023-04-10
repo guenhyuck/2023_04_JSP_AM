@@ -30,9 +30,6 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th>삭제</th>
 		</tr>
 		<%
-
-
-  
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
 		<tr style="text-align: center;">

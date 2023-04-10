@@ -39,6 +39,8 @@ public class ArticleDoWriteServlet extends HttpServlet {
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
+			
+			request.setCharacterEncoding("UTF-8");
 
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
