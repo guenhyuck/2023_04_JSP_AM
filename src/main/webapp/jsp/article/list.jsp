@@ -18,6 +18,9 @@ int totalPage = (int) request.getAttribute("totalPage");
 	<div>
 		<a href="../home/main">메인페이지로 이동</a>
 	</div>
+	<div>
+	<a href="write">글쓰기</a>
+	</div>
 	<h1>게시물 리스트</h1>
 	<table style="border-collapse: collapse; border-color: green" border="2px">
 		<tr>
