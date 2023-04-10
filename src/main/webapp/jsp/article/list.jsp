@@ -62,6 +62,12 @@ int totalPage = (int) request.getAttribute("totalPage");
 		<%
 		}
 		%>
-	</div>
+		<%
+		if(cPage > 0 && cPage < 10);
+		else if(cPage > 10 && cPage < 20);
+		else if(cPage > 20 && cPage < 30);
+		else if(cPage > 30 && cPage < 40);
+		%>
+
 </body>
 </html>
