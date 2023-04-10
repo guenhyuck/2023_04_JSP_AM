@@ -39,6 +39,8 @@ public class ArticleDoModifyServlet extends HttpServlet {
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
+			
+			request.setCharacterEncoding("UTF-8");
 
 			int id = Integer.parseInt(request.getParameter("id"));
 
@@ -48,7 +50,7 @@ public class ArticleDoModifyServlet extends HttpServlet {
 			SecSql sql = SecSql.from("UPDATE article");
 			sql.append("SET title = ?,", title);
 			sql.append("`body` = ?", body);
-			sql.append("WHERE id = ?", id);
+			sql.append("WHERE id = ? ;", id);
 
 			DBUtil.update(conn, sql);
 

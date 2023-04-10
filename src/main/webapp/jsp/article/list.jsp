@@ -9,7 +9,6 @@ int totalPage = (int) request.getAttribute("totalPage");
 %>
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>게시물 리스트</title>
@@ -19,7 +18,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 		<a href="../home/main">메인페이지로 이동</a>
 	</div>
 	<div>
-	<a href="write">글쓰기</a>
+		<a href="write">글쓰기</a>
 	</div>
 	<h1>게시물 리스트</h1>
 	<table style="border-collapse: collapse; border-color: green" border="2px">
@@ -31,21 +30,22 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<th>삭제</th>
 		</tr>
 		<%
+
+
+  
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
 		<tr style="text-align: center;">
 			<td><%=articleRow.get("id")%></td>
 			<td><%=articleRow.get("regDate")%></td>
 			<td><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></td>
-			<td><a href="doModify?id=<%=articleRow.get("id")%>">수정</a></td>
+			<td><a href="modify?id=<%=articleRow.get("id")%>">수정</a></td>
 			<td><a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a></td>
 		</tr>
 		<%
 		}
 		%>
-
 	</table>
-
 	<style type="text/css">
 .page {
 	background-color: gold;
@@ -57,7 +57,6 @@ int totalPage = (int) request.getAttribute("totalPage");
 	color: red;
 }
 </style>
-
 	<div class="page">
 		<%
 		for (int i = 1; i <= totalPage; i++) {
@@ -67,6 +66,5 @@ int totalPage = (int) request.getAttribute("totalPage");
 		}
 		%>
 	</div>
-
 </body>
 </html>
