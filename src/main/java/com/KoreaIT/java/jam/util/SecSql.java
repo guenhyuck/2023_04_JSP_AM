@@ -13,6 +13,7 @@ public class SecSql {
 
 	@Override
 	public String toString() {
+		System.out.println("datas : " + datas);
 		return "sql=" + getFormat() + ", data=" + datas;
 	}
 
@@ -30,34 +31,28 @@ public class SecSql {
 			String sqlBit = (String) args[0];
 			sqlBuilder.append(sqlBit + " ");
 		}
-
 		for (int i = 1; i < args.length; i++) {
 			datas.add(args[i]);
 		}
-
 		return this;
 	}
 
 	public PreparedStatement getPreparedStatement(Connection dbConn) throws SQLException {
 		PreparedStatement stmt = null;
-
 		if (isInsert()) {
 			stmt = dbConn.prepareStatement(getFormat(), Statement.RETURN_GENERATED_KEYS);
 		} else {
 			stmt = dbConn.prepareStatement(getFormat());
 		}
-
 		for (int i = 0; i < datas.size(); i++) {
 			Object data = datas.get(i);
 			int parameterIndex = i + 1;
-
 			if (data instanceof Integer) {
 				stmt.setInt(parameterIndex, (int) data);
 			} else if (data instanceof String) {
 				stmt.setString(parameterIndex, (String) data);
 			}
 		}
-
 		return stmt;
 	}
 
