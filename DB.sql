@@ -8,7 +8,7 @@ CREATE TABLE `member`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     loginId CHAR(100) NOT NULL,
-    loginPw TEXT NOT NULL,
+    loginPw CHAR(100) NOT NULL,
     `name` CHAR(100) NOT NULL
 );
 
@@ -81,3 +81,5 @@ loginId = CONCAT('아이디 ',RAND()),
 loginPw = CONCAT('비번 ',RAND()),
 `name` = CONCAT('이름',RAND());
 
+SELECT *
+FROM `member`;
