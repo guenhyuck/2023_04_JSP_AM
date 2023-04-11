@@ -58,12 +58,6 @@ public class MemberDoLoginServlet extends HttpServlet {
 			
 			
 
-			sql.append("SELECT COUNT(*) > 0");
-			sql.append("FROM `member`");
-			sql.append("WHERE loginID =?", loginId);
-
-
-			boolean isLoginIdDup = DBUtil.selectRowBooleanValue(conn, sql);
 
 
 		} catch (SQLException e) {
