@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.KoreaIT.java.jam.config.Config;
+import com.KoreaIT.java.jam.exception.SQLErrorException;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
@@ -50,6 +52,8 @@ public class ArticleModifyServlet extends HttpServlet {
 			request.setAttribute("articleRow", articleRow);
 			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 		} catch (SQLException e) {
+		} catch (SQLErrorException e) {
+			e.getOrigin().printStackTrace();
 			e.printStackTrace();
 		} finally {
 			try {

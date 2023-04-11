@@ -16,8 +16,8 @@ import com.KoreaIT.java.jam.exception.SQLErrorException;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/article/doModify")
-public class ArticleDoModifyServlet extends HttpServlet {
+@WebServlet("/member/doLogin")
+public class MemberDoLoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,24 +38,33 @@ public class ArticleDoModifyServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
-
-			
 			request.setCharacterEncoding("UTF-8");
 
-			int id = Integer.parseInt(request.getParameter("id"));
+			String loginId = request.getParameter("loginId");
+			String loginPw = request.getParameter("loginPw");
+			
 
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
+			SecSql sql = SecSql.from("INSERT INTO `member`");
+			sql.append("SET regDate = NOW(),");
+			sql.append("loginId = ?,", loginId);
+			sql.append("loginPw = ?;", loginPw);
+		
 
-			SecSql sql = SecSql.from("UPDATE article");
-			sql.append("SET title = ?,", title);
-			sql.append("`body` = ?", body);
-			sql.append("WHERE id = ? ;", id);
+			int id = DBUtil.insert(conn, sql);
 
-			DBUtil.update(conn, sql);
+			response.getWriter().append(
+					String.format("<script>alert('%s님 로그인 되었습니다'); location.replace('../article/list');</script>", loginId));
+			
+			
+			
 
-			response.getWriter().append(String
-					.format("<script>alert('%d번 글이 수정되었습니다'); location.replace('detail?id=%d');</script>", id, id));
+			sql.append("SELECT COUNT(*) > 0");
+			sql.append("FROM `member`");
+			sql.append("WHERE loginID =?", loginId);
+
+
+			boolean isLoginIdDup = DBUtil.selectRowBooleanValue(conn, sql);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
