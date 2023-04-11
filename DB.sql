@@ -58,21 +58,21 @@ FROM article;
 
 INSERT INTO `member`
 SET regDate = NOW(),
-loginId = '이름1',
-loginPw = '비번1',
-`name` = '홍길동';
+loginId = 'test1',
+loginPw = 'test1',
+`name` = 'test1';
 
 INSERT INTO `member`
 SET regDate = NOW(),
-loginId = '이름2',
-loginPw = '비번2',
-`name` = '홍길순';
+loginId = 'test2',
+loginPw = 'test2',
+`name` = 'test2';
 
 INSERT INTO `member`
 SET regDate = NOW(),
-loginId = '이름3',
-loginPw = '비번3',
-`name` = '임꺽정';
+loginId = 'test3',
+loginPw = 'test3',
+`name` = 'test3';
 
 
 INSERT INTO `member`
