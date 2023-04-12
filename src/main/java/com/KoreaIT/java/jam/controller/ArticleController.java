@@ -1,4 +1,5 @@
 package com.KoreaIT.java.jam.controller;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
@@ -8,12 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.KoreaIT.java.jam.service.ArticleService;
-import com.KoreaIT.java.jam.util.DBUtil;
-import com.KoreaIT.java.jam.util.SecSql;
 
 
-
-  
 public class ArticleController {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
@@ -30,9 +27,6 @@ public class ArticleController {
 
 	public void showList() throws ServletException, IOException {
 
-    
-
-  
 		int page = 1;
 		if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
 			page = Integer.parseInt(request.getParameter("page"));
@@ -46,9 +40,6 @@ public class ArticleController {
 
 		request.setAttribute("page", page);
 
-    
-    
-  
 		request.setAttribute("articleRows", articleRows);
 		request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 	}
