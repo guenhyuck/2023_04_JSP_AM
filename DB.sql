@@ -16,6 +16,7 @@ CREATE TABLE `member`(
 CREATE TABLE article(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
     title CHAR(100) NOT NULL,
     `body` TEXT NOT NULL
 );
@@ -23,26 +24,31 @@ CREATE TABLE article(
 # article 테스트데이터 생성
 INSERT INTO article
 SET regDate = NOW(),
+memberId = '회원1',
 title = '제목 1',
 `body` = '내용 1';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = '회원2',
 title = '제목 2',
 `body` = '내용 2';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = '회원3',
 title = '제목 3',
 `body` = '내용 3';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = '회원4',
 title = '제목 4',
 `body` = '내용 4';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = CONCAT('회원',RAND()),
 title = CONCAT('제목 ',RAND()),
 `body` = CONCAT('내용 ',RAND());
 
@@ -51,6 +57,9 @@ SET title = '제목123'
 WHERE id = 38;
 
 SELECT COUNT(*)
+FROM article;
+
+SELECT *
 FROM article;
 
 
