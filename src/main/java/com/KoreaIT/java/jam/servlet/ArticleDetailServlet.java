@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.exception.SQLErrorException;
-
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
@@ -23,9 +23,12 @@ public class ArticleDetailServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		response.setContentType("text/html; charset=UTF-8");
+
 		// DB 연결
 		Connection conn = null;
+
 		try {
 			Class.forName(Config.getDBDriverClassName());
 		} catch (ClassNotFoundException e) {
@@ -33,6 +36,7 @@ public class ArticleDetailServlet extends HttpServlet {
 			System.out.println("프로그램을 종료합니다");
 			return;
 		}
+
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
@@ -57,14 +61,19 @@ public class ArticleDetailServlet extends HttpServlet {
 
 			int id = Integer.parseInt(request.getParameter("id"));
 
-			SecSql sql = SecSql.from("SELECT *");
+			SecSql sql = SecSql.from("SELECT A.*, M.name AS writer");
+			sql.append("FROM article AS A");
+			sql.append("INNER JOIN `member` AS M");
+			sql.append("ON A.memberId = M.id");
+			sql.append("WHERE A.id = ? ;", id);
 
-			sql.append("FROM article");
-			sql.append("WHERE id = ? ;", id);
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+
 			response.getWriter().append(articleRow.toString());
+
 			request.setAttribute("articleRow", articleRow);
 			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SQLErrorException e) {
@@ -85,4 +94,5 @@ public class ArticleDetailServlet extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
+
 }

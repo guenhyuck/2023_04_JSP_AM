@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,14 @@ public class ArticleDoModifyServlet extends HttpServlet {
 
 		response.setContentType("text/html; charset=UTF-8");
 
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("loginedMemberId") == null) {
+			response.getWriter().append(
+					String.format("<script>alert('로그인 후 이용해주세요'); location.replace('../member/login');</script>"));
+			return;
+		}
+
 		// DB 연결
 		Connection conn = null;
 
@@ -41,37 +50,35 @@ public class ArticleDoModifyServlet extends HttpServlet {
 
 			request.setCharacterEncoding("UTF-8");
 
-			HttpSession session = request.getSession();
+			int id = Integer.parseInt(request.getParameter("id"));
 
-			String memberId = request.getParameter("memberId");
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("WHERE id = ? ;", id);
+
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 
 			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-			int id = Integer.parseInt(request.getParameter("id"));
+
+			if (loginedMemberId != (int) articleRow.get("memberId")) {
+				response.getWriter().append(
+						String.format("<script>alert('해당 게시글에 대한 권한이 없습니다'); location.replace('list');</script>", id));
+				return;
+			}
 
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 
-			SecSql sql = SecSql.from("UPDATE article");
+			sql = SecSql.from("UPDATE article");
 			sql.append("SET title = ?,", title);
 			sql.append("`body` = ?", body);
-			sql.append("WHERE id = ? ;", id);
+			sql.append("WHERE id = ?", id);
 
 			DBUtil.update(conn, sql);
 
-			int sessionMemberId = (int) session.getAttribute("loginedMemberId");
+			response.getWriter().append(String
+					.format("<script>alert('%d번 글이 수정되었습니다'); location.replace('detail?id=%d');</script>", id, id));
 
-			if (sessionMemberId != id) {
-
-				response.getWriter()
-						.append(String.format("<script>alert('게시글에 대한 권한이 없습니다'); location.replace('list');</script>"));
-				return;
-			} else {
-				DBUtil.update(conn, sql);
-
-				response.getWriter().append(String
-						.format("<script>alert('%d번 글이 수정되었습니다'); location.replace('detail?id=%d');</script>", id, id));
-				;
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SQLErrorException e) {

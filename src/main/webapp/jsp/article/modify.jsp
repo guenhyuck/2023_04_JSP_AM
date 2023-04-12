@@ -31,6 +31,12 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 				form.loginId.focus();
 				return;
 			}
+			if (membeId = null ) {
+				alert('로그인 후 이용해주세요');
+				form.loginId.focus();
+				return;
+			}
+			
 			ModifyForm__submitDone = true;
 			form.submit();
 		}
