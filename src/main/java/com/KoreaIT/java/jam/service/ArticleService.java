@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import com.KoreaIT.java.jam.dat.ArticleDao;
+import com.KoreaIT.java.jam.dao.ArticleDao;
 
 public class ArticleService {
 	private Connection conn;
