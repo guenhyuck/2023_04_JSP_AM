@@ -15,10 +15,32 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>
 		<a href="../home/main">메인페이지로 이동</a>
 	</div>
+	
+	<div>권한</div>
+	<script type="text/javascript">
+		var ModifyForm__submitDone = false;
+		function ModifyForm__submit(form) {
+			if (ModifyForm__submitDone) {
+				alert('처리중 입니다');
+				return;
+			}
+			var Id = form.Id.value.trim();
+			var memberId = form.memberId.value.trim();
+			if (Id != memberId ) {
+				alert('권한이 없습니다');
+				form.loginId.focus();
+				return;
+			}
+			ModifyForm__submitDone = true;
+			form.submit();
+		}
+	</script>
 
 	<h1><%=articleRow.get("id")%>번 게시물 수정
 	</h1>
-	<form method="post" action="doModify">
+	<form method="post" action="doModify"
+	onsubmit="ModifyForm__submit(this); return false;">>
+	
 		<input value="${param.id }" type="hidden" name="id" />
 		<div>
 			번호 :

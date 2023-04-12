@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.exception.SQLErrorException;
@@ -38,10 +39,13 @@ public class ArticleDoModifyServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
-
-			
 			request.setCharacterEncoding("UTF-8");
 
+			HttpSession session = request.getSession();
+
+			String memberId = request.getParameter("memberId");
+
+			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 			int id = Integer.parseInt(request.getParameter("id"));
 
 			String title = request.getParameter("title");
@@ -54,9 +58,20 @@ public class ArticleDoModifyServlet extends HttpServlet {
 
 			DBUtil.update(conn, sql);
 
-			response.getWriter().append(String
-					.format("<script>alert('%d번 글이 수정되었습니다'); location.replace('detail?id=%d');</script>", id, id));
+			int sessionMemberId = (int) session.getAttribute("loginedMemberId");
 
+			if (sessionMemberId != id) {
+
+				response.getWriter()
+						.append(String.format("<script>alert('게시글에 대한 권한이 없습니다'); location.replace('list');</script>"));
+				return;
+			} else {
+				DBUtil.update(conn, sql);
+
+				response.getWriter().append(String
+						.format("<script>alert('%d번 글이 수정되었습니다'); location.replace('detail?id=%d');</script>", id, id));
+				;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SQLErrorException e) {

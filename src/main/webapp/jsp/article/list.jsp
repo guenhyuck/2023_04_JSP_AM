@@ -3,9 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+@SuppressWarnings("unchecked")
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
+
+  
 %>
 <!DOCTYPE html>
 <html>
@@ -14,13 +17,14 @@ int totalPage = (int) request.getAttribute("totalPage");
 <title>게시물 리스트</title>
 </head>
 <body>
-	<div>
-		<a href="../home/main">메인페이지로 이동</a>
-	</div>
-	<div>
-		<a href="write">글쓰기</a>
-	</div>
+	<%@ include file="../part/topbar.jspf"%>
+
+
 	<h1>게시물 리스트</h1>
+
+    
+    
+  
 	<table style="border-collapse: collapse; border-color: green" border="2px">
 		<tr>
 			<th>번호</th>
@@ -54,7 +58,6 @@ int totalPage = (int) request.getAttribute("totalPage");
 	color: red;
 }
 </style>
-
 	<div class="page">
 		<%
 		if (cPage > 1) {
@@ -77,7 +80,6 @@ int totalPage = (int) request.getAttribute("totalPage");
 		<%
 		}
 		%>
-
 		<%
 		if (cPage < totalPage) {
 		%>
@@ -86,10 +88,5 @@ int totalPage = (int) request.getAttribute("totalPage");
 		}
 		%>
 	</div>
-
 </body>
-
-
-    
-  
 </html>
