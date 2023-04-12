@@ -33,14 +33,6 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-
-
-
-
-
-
-
-
 		<a href="doDelete?id=<%=articleRow.get("id")%>">삭제</a>
 	</div>
 	<div>
